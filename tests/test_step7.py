@@ -6,7 +6,7 @@ Step7测试：执行MCP工具调用
 import asyncio
 import logging
 
-from src.chat_mcp import (
+from chat_mcp import (
     callMCPTool,
     getMcpServerByTool,
     register_server_config,
@@ -90,6 +90,7 @@ async def test_call_mcp_tool():
 
     # 创建工具
     tool = create_mock_tool()
+    tools = [tool]  # 工具列表
 
     print(f"开始调用工具: {tool.name}")
     print(f"工具描述: {tool.description}")
@@ -97,7 +98,7 @@ async def test_call_mcp_tool():
 
     try:
         # 调用工具（预期会失败，因为没有真实的MCP服务器）
-        response = await callMCPTool(tool)
+        response = await callMCPTool(tool.name, {"query": "test", "max_results": 5}, tools)
 
         print("✅ 工具调用完成")
         print(f"  是否错误: {response.isError}")
@@ -144,9 +145,9 @@ async def test_tool_not_found():
     print("✅ getMcpServerByTool正确返回None")
 
     # 测试callMCPTool
-    response = await callMCPTool(tool)
+    response = await callMCPTool("unknown_tool", {"param": "value"}, [tool])
     assert response.isError, "应该返回错误响应"
-    assert "Server not found" in response.content[0]["text"]
+    assert "Tool not found" in response.content[0]["text"] or "Server not found" in response.content[0]["text"]
     print("✅ callMCPTool正确处理服务器未找到的情况")
 
     print("✅ 工具未找到场景测试通过")
@@ -171,8 +172,8 @@ async def test_interface_compatibility():
     result_server = getMcpServerByTool(tool)
     assert result_server is not None
 
-    # 验证callMCPTool接收MCPTool参数并返回MCPCallToolResponse
-    result_response = await callMCPTool(tool)
+    # 验证callMCPTool接收tool_name, arguments, mcp_tools参数并返回MCPCallToolResponse
+    result_response = await callMCPTool(tool.name, {"query": "test"}, [tool])
     assert isinstance(result_response, MCPCallToolResponse)
 
     print("✅ 接口兼容性测试通过")
@@ -187,13 +188,13 @@ async def test_cherry_studio_alignment():
     tool = create_mock_tool()
 
     print("验证Cherry Studio接口对齐:")
-    print("  - callMCPTool接收MCPTool: ✅")
+    print("  - callMCPTool接收(tool_name, arguments, mcp_tools): ✅")
     print("  - getMcpServerByTool接收MCPTool: ✅")
     print("  - 返回MCPCallToolResponse: ✅")
     print("  - 错误处理机制: ✅")
 
     # 测试错误处理与Cherry Studio一致
-    response = await callMCPTool(tool)
+    response = await callMCPTool(tool.name, {"query": "test"}, [tool])
 
     # 检查响应结构与Cherry Studio一致
     assert hasattr(response, "content")

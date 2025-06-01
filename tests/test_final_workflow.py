@@ -10,7 +10,7 @@
 
 import asyncio
 import logging
-from src.chat_mcp import MCPChatTool
+from chat_mcp import MCPChatTool
 
 # 设置日志级别
 logging.basicConfig(level=logging.INFO)
@@ -66,7 +66,7 @@ async def test_custom_server():
     """测试自定义服务器配置"""
     print("\n🧪 测试 4: 自定义服务器配置")
 
-    from src.chat_mcp import create_server_config
+    from chat_mcp import create_server_config
 
     # 创建自定义服务器配置（这里还是用ArXiv做演示）
     custom_server = create_server_config(

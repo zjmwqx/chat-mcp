@@ -7,7 +7,7 @@ import asyncio
 import logging
 from typing import List
 
-from src.chat_mcp import (
+from chat_mcp import (
     parse_tool_use,
     parse_and_call_tools,
     call_mcp_tool,

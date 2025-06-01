@@ -7,7 +7,7 @@ import asyncio
 import logging
 from typing import List
 
-from src.chat_mcp import (
+from chat_mcp import (
     callMCPTool,
     execute_mcp_tool_calls,
     complete_mcp_workflow,
@@ -18,7 +18,7 @@ from src.chat_mcp import (
     MCPServer,
     MCPCallToolResponse,
 )
-from src.chat_mcp.ipc_handler import window_api_mcp
+from chat_mcp.ipc_handler import window_api_mcp
 
 # 设置日志
 logging.basicConfig(level=logging.INFO)

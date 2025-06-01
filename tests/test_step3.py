@@ -199,34 +199,29 @@ async def test_tool_use_parsing():
     """测试工具调用解析功能"""
     print("\n=== 测试2: 工具调用解析功能 ===")
 
-    # 测试内容
-    test_content = """
-    让我帮您搜索相关信息：
-    
+    # 模拟LLM响应包含工具调用
+    llm_response = """
+    我来帮你搜索学术论文。
+
     <tool_use>
     <tool_name>search_arxiv</tool_name>
     <parameters>
-    {
-      "query": "machine learning",
-      "max_results": 5
-    }
+    {"query": "machine learning", "max_results": 5}
     </parameters>
     </tool_use>
-    
-    现在让我获取天气信息：
-    
+
+    让我也查看一下天气。
+
     <tool_use>
     <tool_name>get_weather</tool_name>
     <parameters>
-    {
-      "location": "Beijing",
-      "units": "celsius"
-    }
+    {"location": "Beijing", "units": "celsius"}
     </parameters>
     </tool_use>
     """
 
-    parsed_tools = parse_tool_use(test_content)
+    # 使用解析函数
+    parsed_tools = parse_tool_use(llm_response)
 
     print(f"解析到的工具调用数量: {len(parsed_tools)}")
 
@@ -244,13 +239,14 @@ async def test_tool_use_parsing():
     for i, expected in enumerate(expected_calls):
         assert i < len(parsed_tools), f"缺少第{i+1}个工具调用"
         actual = parsed_tools[i]
+        # 修改访问方式：使用对象属性而不是字典键
         assert (
-            actual["name"] == expected["name"]
-        ), f"工具名称不匹配: {actual['name']} != {expected['name']}"
+            actual.tool.name == expected["name"]
+        ), f"工具名称不匹配: {actual.tool.name} != {expected['name']}"
         assert (
-            actual["parameters"] == expected["parameters"]
-        ), f"参数不匹配: {actual['parameters']} != {expected['parameters']}"
-        print(f"✅ 工具调用 {i+1}: {actual['name']} - 参数解析正确")
+            actual.tool.arguments == expected["parameters"]
+        ), f"参数不匹配: {actual.tool.arguments} != {expected['parameters']}"
+        print(f"✅ 工具调用 {i+1}: {actual.tool.name} - 参数解析正确")
 
     print("✅ 工具调用解析测试通过")
 

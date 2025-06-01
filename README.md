@@ -95,7 +95,7 @@ LLM_MODEL=gpt-3.5-turbo
 ```env
 MODEL_NAME="openai//{VLLM_MODEL_NAME(PATH)}"
 OPENAI_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
-OPENAI_API_BASE="http://xxx.xxx.xxx.xxx:6790/v1"
+OPENAI_API_BASE="http://xxx.xxx.xxx.xxx:xxxx/v1"
 ```
 
 其他模型都已自行尝试配置，具体参考litellm支持的模型
