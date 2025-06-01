@@ -2,16 +2,16 @@
 
 **一个用于在对话中调用MCP（Model Context Protocol）工具的Python客户端库**
 
-Chat-MCP 提供了一个简洁而强大的接口，让您能够轻松地将MCP服务器集成到AI对话中。该库严格遵循Cherry Studio的MCP实现标准，提供工具收集、系统提示词增强、XML格式工具调用解析和并行执行等功能。
+Chat-MCP 提供了一个简洁而强大的接口，让您能够轻松地将MCP服务器集成到AI agent项目中。通过两个简单的api，并配置好.env文件，就可以在开发agent和chat助手时高效的调用mcp服务。作为agentic项目的底层脚手架，分享大家使用。
 
 ## 核心特性
 
-- **简洁的API设计**: 三个主要接口覆盖所有使用场景
-- **Cherry Studio兼容**: 100% 对齐Cherry Studio的MCP实现标准
+- **简洁的API设计**: 二个主要接口覆盖所有使用场景，提高agent应用开发效率
+- **优化提示词**: 提高tools调用的成功率，持续优化中
 - **异步架构**: 完全基于asyncio的高性能处理
 - **智能工具管理**: 自动工具收集、过滤和并行执行
-- **多模型支持**: 通过LiteLLM支持多种LLM提供商
-- **开箱即用**: 内置环境变量配置和ArXiv演示服务器
+- **多模型支持**: 通过LiteLLM支持多种LLM提供商，支持本地模型配置
+
 
 ## 关键技术栈
 
@@ -23,7 +23,7 @@ Chat-MCP 提供了一个简洁而强大的接口，让您能够轻松地将MCP�
 
 ```
 chat-mcp/
-├── docs/                  # 详细的开发文档和规范
+├── docs/                 # 详细的开发文档和规范
 ├── src/chat_mcp/         # 主要源代码包
 │   ├── tests/            # 测试套件
 │   ├── __init__.py       # 公共API导出
@@ -50,7 +50,7 @@ from chat_mcp import MCPChatTool
 # 创建聊天工具实例
 chat_tool = MCPChatTool()
 
-# 启动MCP服务器
+# 启动MCP服务器，这里使用arxiv-mcp-server作为演示样例，可以添加多个不同的mcp server，只需要多次调用
 server = await chat_tool.start_mcp_server(
     server_id="arxiv",
     name="ArXiv Research",
@@ -61,15 +61,9 @@ server = await chat_tool.start_mcp_server(
 # 进行对话
 result = await chat_tool.chat_with_mcp(
     user_message="搜索关于机器学习的最新论文",
-    enabled_server_ids=["arxiv"]
+    enabled_server_ids=["arxiv"] # 这里可以不设置enabled_server_ids,默认所有server都会被添加
 )
 ```
-
-### 三个核心接口
-
-1. **`chat_without_tools()`** - 纯AI对话接口
-2. **`add_mcp_server()`** - 通用MCP服务器管理接口  
-3. **`chat_with_tools()`** - 工具增强对话接口
 
 ## 安装
 
@@ -96,6 +90,15 @@ OPENAI_API_KEY=your_openai_api_key
 OPENAI_API_BASE=https://api.openai.com/v1
 LLM_MODEL=gpt-3.5-turbo
 ```
+如果是vllm本地模型可以如下配置
+
+```env
+MODEL_NAME="openai//{VLLM_MODEL_NAME(PATH)}"
+OPENAI_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+OPENAI_API_BASE="http://xxx.xxx.xxx.xxx:6790/v1"
+```
+
+其他模型都已自行尝试配置，具体参考litellm支持的模型
 
 2. **基础使用**:
 
