@@ -3,7 +3,7 @@
 """
 
 import os
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 from dataclasses import dataclass
 from dotenv import load_dotenv
@@ -15,6 +15,7 @@ load_dotenv()
 @dataclass
 class MCPServer:
     """MCP服务器配置"""
+
     id: str
     name: str
     command: str
@@ -25,6 +26,7 @@ class MCPServer:
 
 class MCPTool(BaseModel):
     """MCP工具定义"""
+
     id: str
     name: str
     description: str
@@ -35,6 +37,7 @@ class MCPTool(BaseModel):
 
 class MCPToolCall(BaseModel):
     """MCP工具调用"""
+
     id: str
     name: str
     arguments: Dict[str, Any]
@@ -42,6 +45,7 @@ class MCPToolCall(BaseModel):
 
 class MCPToolResponse(BaseModel):
     """MCP工具响应"""
+
     id: str
     tool: MCPToolCall
     status: str  # 'invoking', 'success', 'error'
@@ -51,6 +55,7 @@ class MCPToolResponse(BaseModel):
 
 class ChatMessage(BaseModel):
     """聊天消息"""
+
     role: str  # 'user', 'assistant', 'system', 'tool'
     content: str
     metadata: Optional[Dict[str, Any]] = None
@@ -60,15 +65,23 @@ class ChatMessage(BaseModel):
 
 class ChatRequest(BaseModel):
     """聊天请求"""
+
     messages: List[ChatMessage]
-    model: str = Field(default_factory=lambda: os.getenv("MODEL_NAME", os.getenv("DEFAULT_MODEL", "gpt-3.5-turbo")))
+    model: str = Field(
+        default_factory=lambda: os.getenv(
+            "MODEL_NAME", os.getenv("DEFAULT_MODEL", "gpt-3.5-turbo")
+        )
+    )
     enabled_mcps: Optional[List[MCPServer]] = None
     stream: bool = False
-    temperature: float = Field(default_factory=lambda: float(os.getenv("DEFAULT_TEMPERATURE", "0.7")))
+    temperature: float = Field(
+        default_factory=lambda: float(os.getenv("DEFAULT_TEMPERATURE", "0.7"))
+    )
 
 
 class ChatResponse(BaseModel):
     """聊天响应"""
+
     message: ChatMessage
     usage: Optional[Dict[str, Any]] = None
     metrics: Optional[Dict[str, Any]] = None
@@ -76,11 +89,13 @@ class ChatResponse(BaseModel):
 
 class MCPCallToolResponse(BaseModel):
     """MCP工具调用响应"""
+
     content: List[Dict[str, Any]]
     isError: bool = False
-    
+
 
 class ToolParseResult(BaseModel):
     """工具解析结果"""
+
     id: str
-    tool: MCPToolCall 
+    tool: MCPToolCall
