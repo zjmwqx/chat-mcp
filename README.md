@@ -111,8 +111,8 @@ async def main():
     await chat_tool.start_mcp_server(
         server_id="arxiv",
         name="ArXiv Research", 
-        command="python",
-        args=["-m", "arxiv_mcp"]
+        command="uv",
+        args=["tool", "run", "arxiv-mcp-server"]
     )
     
     # 开始对话
