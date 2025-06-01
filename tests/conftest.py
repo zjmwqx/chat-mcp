@@ -4,7 +4,6 @@ pytest配置文件
 """
 
 import sys
-import os
 from pathlib import Path
 
 # 获取项目根目录
@@ -17,4 +16,4 @@ if str(src_path) not in sys.path:
 
 # 确保项目根目录也在路径中
 if str(project_root) not in sys.path:
-    sys.path.insert(0, str(project_root)) 
+    sys.path.insert(0, str(project_root))

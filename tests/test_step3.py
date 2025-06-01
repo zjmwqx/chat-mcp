@@ -182,8 +182,10 @@ async def test_system_prompt_building():
     original_prompt = "You are a helpful assistant."
     enhanced_prompt = build_system_prompt(original_prompt, tools)
 
-    print(f"原始提示词长度: {len(original_prompt)}")
-    print(f"增强提示词长度: {len(enhanced_prompt)}")
+    original_len = len(original_prompt)
+    enhanced_len = len(enhanced_prompt)
+
+    print(f"[验证] 系统提示词从 {original_len} 字符增强到 " f"{enhanced_len} 字符")
     print(f"包含工具信息: {'Available tools:' in enhanced_prompt}")
     print(f"包含工具名称: {'search_papers' in enhanced_prompt}")
     print(f"包含XML示例: {'<tool_use>' in enhanced_prompt}")
@@ -448,7 +450,6 @@ async def main():
         print("- ✅ 错误处理 - 优雅处理各种异常情况")
 
         print("\n🔧 技术要点:")
-        print("- 参考Cherry Studio的OpenAIProvider.ts:321-323实现")
         print("- 使用XML格式的工具调用，而非OpenAI的函数调用")
         print("- 支持多工具并行传递给LLM")
         print("- 系统提示词模板化，包含工具说明和使用示例")

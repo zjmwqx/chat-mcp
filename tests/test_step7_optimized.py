@@ -244,6 +244,11 @@ async def test_complete_workflow():
         assert final_response.message.role == "assistant"
         assert len(final_response.message.content) > 0
 
+        print(
+            f"[验证] complete_mcp_workflow执行成功: "
+            f"{final_response.message.content[:100]}"
+        )
+
     except Exception as e:
         print(f"⚠️  工作流程异常: {e}")
         # 这是预期的，因为没有真实的LLM API

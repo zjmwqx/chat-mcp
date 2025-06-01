@@ -11,7 +11,9 @@ from pathlib import Path
 # 添加src路径到Python路径中
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
-from chat_mcp import MCPService, MCPServer
+# 导入我们的模块
+from src.chat_mcp import MCPServer
+from src.chat_mcp.mcp_service import MCPService
 
 # 设置日志
 logging.basicConfig(

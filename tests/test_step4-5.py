@@ -3,13 +3,21 @@ Task4-5简化测试：专门验证系统提示词构建功能
 测试 buildSystemPrompt 函数是否正确实现了 Cherry Studio 的行为
 """
 
-import sys
+import logging
 import os
+import sys
 
 # 添加src目录到路径
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
-from chat_mcp import build_system_prompt, MCPTool
+# 导入我们的模块
+from chat_mcp import (
+    MCPTool,
+    build_system_prompt,
+)
+
+# 设置日志
+logging.basicConfig(level=logging.INFO)
 
 
 def test_build_system_prompt_core():

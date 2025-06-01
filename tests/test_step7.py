@@ -98,7 +98,9 @@ async def test_call_mcp_tool():
 
     try:
         # 调用工具（预期会失败，因为没有真实的MCP服务器）
-        response = await callMCPTool(tool.name, {"query": "test", "max_results": 5}, tools)
+        response = await callMCPTool(
+            tool.name, {"query": "test", "max_results": 5}, tools
+        )
 
         print("✅ 工具调用完成")
         print(f"  是否错误: {response.isError}")
@@ -147,7 +149,10 @@ async def test_tool_not_found():
     # 测试callMCPTool
     response = await callMCPTool("unknown_tool", {"param": "value"}, [tool])
     assert response.isError, "应该返回错误响应"
-    assert "Tool not found" in response.content[0]["text"] or "Server not found" in response.content[0]["text"]
+    assert (
+        "Tool not found" in response.content[0]["text"]
+        or "Server not found" in response.content[0]["text"]
+    )
     print("✅ callMCPTool正确处理服务器未找到的情况")
 
     print("✅ 工具未找到场景测试通过")

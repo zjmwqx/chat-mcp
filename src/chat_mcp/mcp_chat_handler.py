@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class MCPToolCollector:
     """
     MCP工具收集器：负责从启用的MCP服务器收集工具列表
-    参考Cherry Studio的ApiService.fetchChatCompletion中的工具收集逻辑
+    
     """
 
     def __init__(self):
@@ -33,18 +33,7 @@ class MCPToolCollector:
         Returns:
             收集到的MCP工具列表
 
-        参考代码：ApiService.ts:166-176
-        // Get MCP tools
-        const mcpTools: MCPTool[] = []
-        const enabledMCPs = lastUserMessage?.enabledMCPs
-
-        if (enabledMCPs && enabledMCPs.length > 0) {
-          for (const mcpServer of enabledMCPs) {
-            const tools = await window.api.mcp.listTools(mcpServer)
-            const availableTools = tools.filter((tool: any) => !mcpServer.disabledTools?.includes(tool.name))
-            mcpTools.push(...availableTools)
-          }
-        }
+        
         """
         mcp_tools: List[MCPTool] = []
 
@@ -70,7 +59,8 @@ class MCPToolCollector:
                 )
 
                 logger.info(
-                    f"[MCP] Server {mcp_server.name}: {len(tools)} total tools, {len(available_tools)} available"
+                    f"[MCP] Server {mcp_server.name}: {len(tools)} total tools, "
+                    f"{len(available_tools)} available"
                 )
 
                 # 添加到工具列表
@@ -146,13 +136,7 @@ class ChatMCPClient:
         Returns:
             聊天响应
 
-        参考代码：ApiService.ts:178-281
-        await AI.completions({
-            messages: filterUsefulMessages(filterContextMessages(messages)),
-            assistant,
-            onChunk: (chunk) => { ... },
-            mcpTools: mcpTools
-        })
+        
         """
         logger.info(f"[Chat] Starting chat with model: {request.model}")
 
@@ -201,7 +185,8 @@ class ChatMCPClient:
 
             logger.info("[Chat] AI response generated successfully")
             logger.info(
-                f"[Chat] Tool calls detected: {len(response.message.tool_calls) if response.message.tool_calls else 0}"
+                "[Chat] Tool calls detected: "
+                f"{len(response.message.tool_calls) if response.message.tool_calls else 0}"
             )
 
             return response
