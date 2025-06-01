@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class MCPToolCollector:
     """
     MCP工具收集器：负责从启用的MCP服务器收集工具列表
-    
+
     """
 
     def __init__(self):
@@ -33,7 +33,7 @@ class MCPToolCollector:
         Returns:
             收集到的MCP工具列表
 
-        
+
         """
         mcp_tools: List[MCPTool] = []
 
@@ -136,7 +136,7 @@ class ChatMCPClient:
         Returns:
             聊天响应
 
-        
+
         """
         logger.info(f"[Chat] Starting chat with model: {request.model}")
 

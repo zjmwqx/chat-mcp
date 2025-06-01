@@ -616,7 +616,7 @@ class AIProvider:
 def getMcpServerByTool(tool: MCPTool) -> Optional[MCPServer]:
     """
     根据工具获取对应的MCP服务器配置
-    
+
 
     Args:
         tool: MCP工具对象
